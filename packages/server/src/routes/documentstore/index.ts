@@ -6,7 +6,7 @@ const router = express.Router()
 // Create document store
 router.post('/store', documentStoreController.createDocumentStore)
 // List all stores
-router.get('/store', documentStoreController.getAllDocumentStores)
+router.get('/stores', documentStoreController.getAllDocumentStores)
 // Get specific store
 router.get('/store/:id', documentStoreController.getDocumentStoreById)
 // Update documentStore

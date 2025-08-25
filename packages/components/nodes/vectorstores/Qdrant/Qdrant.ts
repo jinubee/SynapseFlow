@@ -6,9 +6,8 @@ import { Document } from '@langchain/core/documents'
 import { QdrantVectorStore, QdrantLibArgs } from '@langchain/qdrant'
 import { Embeddings } from '@langchain/core/embeddings'
 import { ICommonObject, INode, INodeData, INodeOutputsValue, INodeParams, IndexingResult } from '../../../src/Interface'
-import { FLOWISE_CHATID, getBaseClasses, getCredentialData, getCredentialParam } from '../../../src/utils'
+import { getBaseClasses, getCredentialData, getCredentialParam } from '../../../src/utils'
 import { index } from '../../../src/indexing'
-import { howToUseFileUpload } from '../VectorStoreUtils'
 
 type RetrieverConfig = Partial<VectorStoreRetrieverInput<QdrantVectorStore>>
 type QdrantAddDocumentOptions = {
@@ -33,7 +32,7 @@ class Qdrant_VectorStores implements INode {
     constructor() {
         this.label = 'Qdrant'
         this.name = 'qdrant'
-        this.version = 5.0
+        this.version = 4.0
         this.type = 'Qdrant'
         this.icon = 'qdrant.png'
         this.category = 'Vector Stores'
@@ -78,18 +77,6 @@ class Qdrant_VectorStores implements INode {
                 label: 'Qdrant Collection Name',
                 name: 'qdrantCollection',
                 type: 'string'
-            },
-            {
-                label: 'File Upload',
-                name: 'fileUpload',
-                description: 'Allow file upload on the chat',
-                hint: {
-                    label: 'How to use',
-                    value: howToUseFileUpload
-                },
-                type: 'boolean',
-                additionalParams: true,
-                optional: true
             },
             {
                 label: 'Vector Dimension',
@@ -201,7 +188,6 @@ class Qdrant_VectorStores implements INode {
             const _batchSize = nodeData.inputs?.batchSize
             const contentPayloadKey = nodeData.inputs?.contentPayloadKey || 'content'
             const metadataPayloadKey = nodeData.inputs?.metadataPayloadKey || 'metadata'
-            const isFileUploadEnabled = nodeData.inputs?.fileUpload as boolean
 
             const credentialData = await getCredentialData(nodeData.credential ?? '', options)
             const qdrantApiKey = getCredentialParam('qdrantApiKey', credentialData, nodeData)
@@ -218,9 +204,6 @@ class Qdrant_VectorStores implements INode {
             const finalDocs = []
             for (let i = 0; i < flattenDocs.length; i += 1) {
                 if (flattenDocs[i] && flattenDocs[i].pageContent) {
-                    if (isFileUploadEnabled && options.chatId) {
-                        flattenDocs[i].metadata = { ...flattenDocs[i].metadata, [FLOWISE_CHATID]: options.chatId }
-                    }
                     finalDocs.push(new Document(flattenDocs[i]))
                 }
             }
@@ -408,7 +391,6 @@ class Qdrant_VectorStores implements INode {
         let queryFilter = nodeData.inputs?.qdrantFilter
         const contentPayloadKey = nodeData.inputs?.contentPayloadKey || 'content'
         const metadataPayloadKey = nodeData.inputs?.metadataPayloadKey || 'metadata'
-        const isFileUploadEnabled = nodeData.inputs?.fileUpload as boolean
 
         const k = topK ? parseFloat(topK) : 4
 
@@ -451,25 +433,6 @@ class Qdrant_VectorStores implements INode {
 
         if (queryFilter) {
             retrieverConfig.filter = typeof queryFilter === 'object' ? queryFilter : JSON.parse(queryFilter)
-        }
-        if (isFileUploadEnabled && options.chatId) {
-            retrieverConfig.filter = retrieverConfig.filter || {}
-
-            retrieverConfig.filter.should = Array.isArray(retrieverConfig.filter.should) ? retrieverConfig.filter.should : []
-
-            retrieverConfig.filter.should.push(
-                {
-                    key: `metadata.${FLOWISE_CHATID}`,
-                    match: {
-                        value: options.chatId
-                    }
-                },
-                {
-                    is_empty: {
-                        key: `metadata.${FLOWISE_CHATID}`
-                    }
-                }
-            )
         }
 
         const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, dbConfig)

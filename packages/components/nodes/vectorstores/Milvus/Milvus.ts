@@ -4,8 +4,7 @@ import { Document } from '@langchain/core/documents'
 import { MilvusLibArgs, Milvus } from '@langchain/community/vectorstores/milvus'
 import { Embeddings } from '@langchain/core/embeddings'
 import { ICommonObject, INode, INodeData, INodeOutputsValue, INodeParams, IndexingResult } from '../../../src/Interface'
-import { FLOWISE_CHATID, getBaseClasses, getCredentialData, getCredentialParam } from '../../../src/utils'
-import { howToUseFileUpload } from '../VectorStoreUtils'
+import { getBaseClasses, getCredentialData, getCredentialParam } from '../../../src/utils'
 
 interface InsertRow {
     [x: string]: string | number[]
@@ -28,7 +27,7 @@ class Milvus_VectorStores implements INode {
     constructor() {
         this.label = 'Milvus'
         this.name = 'milvus'
-        this.version = 2.0
+        this.version = 1.0
         this.type = 'Milvus'
         this.icon = 'milvus.svg'
         this.category = 'Vector Stores'
@@ -64,18 +63,6 @@ class Milvus_VectorStores implements INode {
                 label: 'Milvus Collection Name',
                 name: 'milvusCollection',
                 type: 'string'
-            },
-            {
-                label: 'File Upload',
-                name: 'fileUpload',
-                description: 'Allow file upload on the chat',
-                hint: {
-                    label: 'How to use',
-                    value: howToUseFileUpload
-                },
-                type: 'boolean',
-                additionalParams: true,
-                optional: true
             },
             {
                 label: 'Milvus Text Field',
@@ -129,7 +116,6 @@ class Milvus_VectorStores implements INode {
             // embeddings
             const docs = nodeData.inputs?.document as Document[]
             const embeddings = nodeData.inputs?.embeddings as Embeddings
-            const isFileUploadEnabled = nodeData.inputs?.fileUpload as boolean
 
             // credential
             const credentialData = await getCredentialData(nodeData.credential ?? '', options)
@@ -149,9 +135,6 @@ class Milvus_VectorStores implements INode {
             const finalDocs = []
             for (let i = 0; i < flattenDocs.length; i += 1) {
                 if (flattenDocs[i] && flattenDocs[i].pageContent) {
-                    if (isFileUploadEnabled && options.chatId) {
-                        flattenDocs[i].metadata = { ...flattenDocs[i].metadata, [FLOWISE_CHATID]: options.chatId }
-                    }
                     finalDocs.push(new Document(flattenDocs[i]))
                 }
             }
@@ -175,9 +158,8 @@ class Milvus_VectorStores implements INode {
         // server setup
         const address = nodeData.inputs?.milvusServerUrl as string
         const collectionName = nodeData.inputs?.milvusCollection as string
-        const _milvusFilter = nodeData.inputs?.milvusFilter as string
+        const milvusFilter = nodeData.inputs?.milvusFilter as string
         const textField = nodeData.inputs?.milvusTextField as string
-        const isFileUploadEnabled = nodeData.inputs?.fileUpload as boolean
 
         // embeddings
         const embeddings = nodeData.inputs?.embeddings as Embeddings
@@ -203,12 +185,6 @@ class Milvus_VectorStores implements INode {
 
         if (milvusUser) milVusArgs.username = milvusUser
         if (milvusPassword) milVusArgs.password = milvusPassword
-
-        let milvusFilter = _milvusFilter
-        if (isFileUploadEnabled && options.chatId) {
-            if (milvusFilter) milvusFilter += ` OR ${FLOWISE_CHATID} == "${options.chatId}" OR NOT EXISTS(${FLOWISE_CHATID})`
-            else milvusFilter = `${FLOWISE_CHATID} == "${options.chatId}" OR NOT EXISTS(${FLOWISE_CHATID})`
-        }
 
         const vectorStore = await Milvus.fromExistingCollection(embeddings, milVusArgs)
 
