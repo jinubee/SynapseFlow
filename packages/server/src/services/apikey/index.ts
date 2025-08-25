@@ -48,14 +48,14 @@ const getAllApiKeys = async () => {
     }
 }
 
-const getApiKey = async (apiKey: string) => {
+const getApiKey = async (keyName: string) => {
     try {
         if (_apikeysStoredInJson()) {
-            return getApiKey_json(apiKey)
+            return getApiKey_json(keyName)
         } else if (_apikeysStoredInDb()) {
             const appServer = getRunningExpressApp()
             const currentKey = await appServer.AppDataSource.getRepository(ApiKey).findOneBy({
-                apiKey: apiKey
+                keyName: keyName
             })
             if (!currentKey) {
                 return undefined

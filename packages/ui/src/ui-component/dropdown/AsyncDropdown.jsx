@@ -35,10 +35,7 @@ const fetchList = async ({ name, nodeData }) => {
         .post(
             `${baseURL}/api/v1/node-load-method/${nodeData.name}`,
             { ...nodeData, loadMethod },
-            {
-                auth: username && password ? { username, password } : undefined,
-                headers: { 'Content-type': 'application/json', 'x-request-from': 'internal' }
-            }
+            { auth: username && password ? { username, password } : undefined }
         )
         .then(async function (response) {
             return response.data
