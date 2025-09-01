@@ -1,19 +1,19 @@
 <!-- markdownlint-disable MD030 -->
 
-# Flowise UI
+# SynapseFlow UI
 
 English | [中文](./README-ZH.md)
 
-React frontend ui for Flowise.
+React frontend ui for SynapseFlow.
 
-![Flowise](https://github.com/FlowiseAI/Flowise/blob/main/images/flowise_agentflow.gif?raw=true)
+![SynapseFlow](https://github.com/SynapseFlowAI/SynapseFlow/blob/main/images/SynapseFlow_agentflow.gif?raw=true)
 
 Install:
 
 ```bash
-npm i flowise-ui
+npm i SynapseFlow-ui
 ```
 
 ## License
 
-Source code in this repository is made available under the [Apache License Version 2.0](https://github.com/FlowiseAI/Flowise/blob/master/LICENSE.md).
+Source code in this repository is made available under the [Apache License Version 2.0](https://github.com/SynapseFlowAI/SynapseFlow/blob/master/LICENSE.md).

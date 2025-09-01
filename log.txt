@@ -1117,15 +1117,15 @@ e19c412c9 fixes bug where querying by chatId results in no records previous logi
 9b5df7357 Update how uploads config is sent
 fb17c1ba4 Return uploads config in public chatbot config endpoint
 5921b61ff Merge pull request #1687 from 0xi4o/bug/scrap-limit Fix: relative links method and limit not applying to manage links
-2a7653f30 Merge pull request #1707 from SynapseFlowAI/feature/env-vars add FLOWISE_FILE_SIZE_LIMIT variable
+2a7653f30 Merge pull request #1707 from SynapseFlowAI/feature/env-vars add SynapseFlow_FILE_SIZE_LIMIT variable
 32726c9ba Merge branch 'bug/scrap-limit' of github.com:0xi4o/SynapseFlow into bug/scrap-limit
 2442e2440 Show error when relative links method is not set and allow 0 as limit value
 211e7ab08 Add feedback endpoints
-49523580b add more FLOWISE_FILE_SIZE_LIMIT
+49523580b add more SynapseFlow_FILE_SIZE_LIMIT
 3cb68880a Merge pull request #1703 from SynapseFlowAI/feature/Retriever-Output Feature/Add document json output
 8215b1233 Merge pull request #1677 from fletch-ai/bugfix/Postgres-SSL-Fix Fixing Postgres so that similaritySearchVectorWithScore actually connects via TLS/SSL when specified
-0a4337433 add FLOWISE_FILE_SIZE_LIMIT into docker env
-1f0bb51b6 add FLOWISE_FILE_SIZE_LIMIT variable
+0a4337433 add SynapseFlow_FILE_SIZE_LIMIT into docker env
+1f0bb51b6 add SynapseFlow_FILE_SIZE_LIMIT variable
 616bfae4d add document json output
 9d4ea586b Merge pull request #1702 from SynapseFlowAI/feature/RateLimit add missing steps into rate limit msg
 ba40d9a43 add missing steps into rate limit msg
@@ -2088,8 +2088,8 @@ be3bf7dd7 modify delete chat message method
 f656f4317 update openai models
 ed6869b9e Merge branch 'main' into feature/ChatHistory2
 7923f0c44 add retrieve internal chat message
-b4312cfbb Merge pull request #939 from SynapseFlowAI/feature/Credential Feature/Add FLOWISE_SECRETKEY_OVERWRITE
-8c7070276 add FLOWISE_SECRETKEY_OVERWRITE
+b4312cfbb Merge pull request #939 from SynapseFlowAI/feature/Credential Feature/Add SynapseFlow_SECRETKEY_OVERWRITE
+8c7070276 add SynapseFlow_SECRETKEY_OVERWRITE
 b5ddfe33d add chatId column
 a0cafa523 🥳 SynapseFlow-ui@1.3.3 release
 fc9afa9e7 🥳 SynapseFlow@1.3.5 release
@@ -2811,7 +2811,7 @@ c4fc121c9 add bathSize into AzureOpenAIEmbedding
 84b45d214 🥳 SynapseFlow-ui@1.2.9 release
 37586bd99 🥳 SynapseFlow-components@1.2.11 release
 25ab25bce Merge pull request #205 from SynapseFlowAI/feature/Authorization Bugfix/Authorization Variables
-c382c8988 change USERNAME and PASSWORD to FLOWISE_USERNAME and FLOWISE_PASSWORD to prevent conflict with machine env variables
+c382c8988 change USERNAME and PASSWORD to SynapseFlow_USERNAME and SynapseFlow_PASSWORD to prevent conflict with machine env variables
 253b83476 🥳 SynapseFlow@1.2.8 release
 e374c5c18 🥳 SynapseFlow-ui@1.2.7 release
 4a33d15af 🥳 SynapseFlow-components@1.2.9 release

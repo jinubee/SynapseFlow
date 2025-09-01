@@ -1,7 +1,7 @@
 {
-    "name": "flowise-components",
+    "name": "SynapseFlow-components",
     "version": "3.0.5",
-    "description": "Flowiseai Components",
+    "description": "SynapseFlowai Components",
     "main": "dist/src/index",
     "types": "dist/src/index.d.ts",
     "scripts": {
@@ -14,10 +14,10 @@
         "test:coverage": "jest --coverage"
     },
     "keywords": [],
-    "homepage": "https://flowiseai.com",
+    "homepage": "https://SynapseFlowai.com",
     "author": {
         "name": "Henry Heng",
-        "email": "henryheng@flowiseai.com"
+        "email": "henryheng@SynapseFlowai.com"
     },
     "license": "SEE LICENSE IN LICENSE.md",
     "dependencies": {
@@ -33,7 +33,7 @@
         "@dqbd/tiktoken": "^1.0.21",
         "@e2b/code-interpreter": "^1.5.1",
         "@elastic/elasticsearch": "^8.9.0",
-        "@flowiseai/nodevm": "^3.9.25",
+        "@SynapseFlowai/nodevm": "^3.9.25",
         "@getzep/zep-cloud": "~1.0.7",
         "@getzep/zep-js": "^0.9.0",
         "@gomomento/sdk": "^1.51.1",

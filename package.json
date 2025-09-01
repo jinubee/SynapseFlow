@@ -1,11 +1,11 @@
 {
-    "name": "flowise",
+    "name": "SynapseFlow",
     "version": "3.0.5",
     "private": true,
-    "homepage": "https://flowiseai.com",
+    "homepage": "https://SynapseFlowai.com",
     "workspaces": [
         "packages/*",
-        "flowise",
+        "SynapseFlow",
         "ui",
         "components",
         "api-documentation"

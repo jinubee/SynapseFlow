@@ -17,7 +17,7 @@ interface BufferMemoryExtendedInput {
 
 interface NodeFields extends Mem0MemoryInput, Mem0MemoryExtendedInput, BufferMemoryExtendedInput {
     searchOnly: boolean
-    useFlowiseChatId: boolean
+    useSynapseFlowChatId: boolean
     input: string
 }
 
@@ -55,16 +55,16 @@ class Mem0_Memory implements INode {
                 label: 'User ID',
                 name: 'user_id',
                 type: 'string',
-                description: 'Unique identifier for the user. Required only if "Use Flowise Chat ID" is OFF.',
-                default: 'flowise-default-user',
+                description: 'Unique identifier for the user. Required only if "Use SynapseFlow Chat ID" is OFF.',
+                default: 'SynapseFlow-default-user',
                 optional: true
             },
-            // Added toggle to use Flowise chat ID
+            // Added toggle to use SynapseFlow chat ID
             {
-                label: 'Use Flowise Chat ID',
-                name: 'useFlowiseChatId',
+                label: 'Use SynapseFlow Chat ID',
+                name: 'useSynapseFlowChatId',
                 type: 'boolean',
-                description: 'Use the Flowise internal Chat ID as the Mem0 User ID, overriding the "User ID" field above.',
+                description: 'Use the SynapseFlow internal Chat ID as the Mem0 User ID, overriding the "User ID" field above.',
                 default: false,
                 optional: true
             },
@@ -156,11 +156,11 @@ class Mem0_Memory implements INode {
 
 const initializeMem0 = async (nodeData: INodeData, input: string, options: ICommonObject): Promise<BaseMem0Memory> => {
     const initialUserId = nodeData.inputs?.user_id as string
-    const useFlowiseChatId = nodeData.inputs?.useFlowiseChatId as boolean
+    const useSynapseFlowChatId = nodeData.inputs?.useSynapseFlowChatId as boolean
     const orgId = options.orgId as string
 
-    if (!useFlowiseChatId && !initialUserId) {
-        throw new Error('User ID field cannot be empty when "Use Flowise Chat ID" is OFF.')
+    if (!useSynapseFlowChatId && !initialUserId) {
+        throw new Error('User ID field cannot be empty when "Use SynapseFlow Chat ID" is OFF.')
     }
 
     const credentialData = await getCredentialData(nodeData.credential ?? '', options)
@@ -175,7 +175,7 @@ const initializeMem0 = async (nodeData: INodeData, input: string, options: IComm
 
     const memOptionsUserId = initialUserId
 
-    const constructorSessionId = initialUserId || (useFlowiseChatId ? 'flowise-chat-id-placeholder' : '')
+    const constructorSessionId = initialUserId || (useSynapseFlowChatId ? 'SynapseFlow-chat-id-placeholder' : '')
 
     const memoryOptions: MemoryOptions & SearchOptions = {
         user_id: memOptionsUserId,
@@ -204,7 +204,7 @@ const initializeMem0 = async (nodeData: INodeData, input: string, options: IComm
         databaseEntities: options.databaseEntities as IDatabaseEntity,
         chatflowid: options.chatflowid as string,
         searchOnly: (nodeData.inputs?.searchOnly as boolean) || false,
-        useFlowiseChatId: useFlowiseChatId,
+        useSynapseFlowChatId: useSynapseFlowChatId,
         input: input,
         orgId: orgId
     }
@@ -214,7 +214,7 @@ const initializeMem0 = async (nodeData: INodeData, input: string, options: IComm
 
 interface Mem0MemoryExtendedInput extends Mem0MemoryInput {
     memoryOptions?: MemoryOptions | SearchOptions
-    useFlowiseChatId: boolean
+    useSynapseFlowChatId: boolean
     orgId: string
 }
 
@@ -228,7 +228,7 @@ class Mem0MemoryExtended extends BaseMem0Memory implements MemoryMethods {
     databaseEntities: IDatabaseEntity
     chatflowid: string
     searchOnly: boolean
-    useFlowiseChatId: boolean
+    useSynapseFlowChatId: boolean
     input: string
 
     constructor(fields: NodeFields) {
@@ -241,20 +241,20 @@ class Mem0MemoryExtended extends BaseMem0Memory implements MemoryMethods {
         this.databaseEntities = fields.databaseEntities
         this.chatflowid = fields.chatflowid
         this.searchOnly = fields.searchOnly
-        this.useFlowiseChatId = fields.useFlowiseChatId
+        this.useSynapseFlowChatId = fields.useSynapseFlowChatId
         this.input = fields.input
         this.orgId = fields.orgId
     }
 
-    // Selects Mem0 user_id based on toggle state (Flowise chat ID or input field)
+    // Selects Mem0 user_id based on toggle state (SynapseFlow chat ID or input field)
     private getEffectiveUserId(overrideUserId?: string): string {
         let effectiveUserId: string | undefined
 
-        if (this.useFlowiseChatId) {
+        if (this.useSynapseFlowChatId) {
             if (overrideUserId) {
                 effectiveUserId = overrideUserId
             } else {
-                throw new Error('Mem0: "Use Flowise Chat ID" is ON, but no runtime chat ID (overrideUserId) was provided.')
+                throw new Error('Mem0: "Use SynapseFlow Chat ID" is ON, but no runtime chat ID (overrideUserId) was provided.')
             }
         } else {
             // If toggle is OFF, ALWAYS use the ID from the input field.
@@ -303,15 +303,15 @@ class Mem0MemoryExtended extends BaseMem0Memory implements MemoryMethods {
         returnBaseMessages = false,
         prependMessages?: IMessage[]
     ): Promise<IMessage[] | BaseMessage[]> {
-        const flowiseSessionId = overrideUserId
-        if (!flowiseSessionId) {
-            console.warn('Mem0: getChatMessages called without overrideUserId (Flowise Session ID). Cannot fetch DB messages.')
+        const SynapseFlowSessionId = overrideUserId
+        if (!SynapseFlowSessionId) {
+            console.warn('Mem0: getChatMessages called without overrideUserId (SynapseFlow Session ID). Cannot fetch DB messages.')
             return []
         }
 
         let chatMessage = await this.appDataSource.getRepository(this.databaseEntities['ChatMessage']).find({
             where: {
-                sessionId: flowiseSessionId,
+                sessionId: SynapseFlowSessionId,
                 chatflowid: this.chatflowid
             },
             order: {
@@ -377,13 +377,13 @@ class Mem0MemoryExtended extends BaseMem0Memory implements MemoryMethods {
         const effectiveUserId = this.getEffectiveUserId(overrideUserId)
         await this.clear(effectiveUserId)
 
-        const flowiseSessionId = overrideUserId
-        if (flowiseSessionId) {
+        const SynapseFlowSessionId = overrideUserId
+        if (SynapseFlowSessionId) {
             await this.appDataSource
                 .getRepository(this.databaseEntities['ChatMessage'])
-                .delete({ sessionId: flowiseSessionId, chatflowid: this.chatflowid })
+                .delete({ sessionId: SynapseFlowSessionId, chatflowid: this.chatflowid })
         } else {
-            console.warn('Mem0: clearChatMessages called without overrideUserId (Flowise Session ID). Cannot clear DB messages.')
+            console.warn('Mem0: clearChatMessages called without overrideUserId (SynapseFlow Session ID). Cannot clear DB messages.')
         }
     }
 }

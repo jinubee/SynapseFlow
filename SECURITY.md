@@ -1,6 +1,6 @@
 ### Responsible Disclosure Policy  
 
-At Flowise, we prioritize security and continuously work to safeguard our systems. However, vulnerabilities can still exist. If you identify a security issue, please report it to us so we can address it promptly. Your cooperation helps us better protect our platform and users.  
+At SynapseFlow, we prioritize security and continuously work to safeguard our systems. However, vulnerabilities can still exist. If you identify a security issue, please report it to us so we can address it promptly. Your cooperation helps us better protect our platform and users.  
 
 ### Vulnerabilities  
 
@@ -20,7 +20,7 @@ The following types of issues are some of the most common vulnerabilities:
 
 ### Reporting Guidelines  
 
-- Submit your findings to https://github.com/FlowiseAI/Flowise/security
+- Submit your findings to https://github.com/SynapseFlowAI/SynapseFlow/security
 - Provide clear details to help us reproduce and fix the issue quickly.  
 
 ### Disclosure Guidelines  
@@ -28,9 +28,9 @@ The following types of issues are some of the most common vulnerabilities:
 - Do not publicly disclose vulnerabilities until we have assessed, resolved, and notified affected users.  
 - If you plan to present your research (e.g., at a conference or in a blog), share a draft with us at least **30 days in advance** for review.  
 - Avoid including:  
-  - Data from any Flowise customer projects  
-  - Flowise user/customer information  
-  - Details about Flowise employees, contractors, or partners  
+  - Data from any SynapseFlow customer projects  
+  - SynapseFlow user/customer information  
+  - Details about SynapseFlow employees, contractors, or partners  
 
 ### Response to Reports  
 

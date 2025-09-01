@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import leadsService from '../../services/leads'
 import { StatusCodes } from 'http-status-codes'
-import { InternalFlowiseError } from '../../errors/internalFlowiseError'
+import { InternalSynapseFlowError } from '../../errors/internalSynapseFlowError'
 
 const getAllLeadsForChatflow = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (typeof req.params.id === 'undefined' || req.params.id === '') {
-            throw new InternalFlowiseError(
+            throw new InternalSynapseFlowError(
                 StatusCodes.PRECONDITION_FAILED,
                 `Error: leadsController.getAllLeadsForChatflow - id not provided!`
             )
@@ -22,7 +22,7 @@ const getAllLeadsForChatflow = async (req: Request, res: Response, next: NextFun
 const createLeadInChatflow = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (typeof req.body === 'undefined' || req.body === '') {
-            throw new InternalFlowiseError(
+            throw new InternalSynapseFlowError(
                 StatusCodes.PRECONDITION_FAILED,
                 `Error: leadsController.createLeadInChatflow - body not provided!`
             )
