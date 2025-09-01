@@ -1,34 +1,34 @@
 <!-- markdownlint-disable MD030 -->
 
 <p align="center">
-<img src="https://github.com/FlowiseAI/Flowise/blob/main/images/flowise_white.svg#gh-light-mode-only">
-<img src="https://github.com/FlowiseAI/Flowise/blob/main/images/flowise_dark.svg#gh-dark-mode-only">
+<img src="https://github.com/SynapseFlowAI/SynapseFlow/blob/main/images/SynapseFlow_white.svg#gh-light-mode-only">
+<img src="https://github.com/SynapseFlowAI/SynapseFlow/blob/main/images/SynapseFlow_dark.svg#gh-dark-mode-only">
 </p>
 
-[![Release Notes](https://img.shields.io/github/release/FlowiseAI/Flowise)](https://github.com/FlowiseAI/Flowise/releases)
+[![Release Notes](https://img.shields.io/github/release/SynapseFlowAI/SynapseFlow)](https://github.com/SynapseFlowAI/SynapseFlow/releases)
 [![Discord](https://img.shields.io/discord/1087698854775881778?label=Discord&logo=discord)](https://discord.gg/jbaHfsRVBW)
-[![Twitter Follow](https://img.shields.io/twitter/follow/FlowiseAI?style=social)](https://twitter.com/FlowiseAI)
-[![GitHub star chart](https://img.shields.io/github/stars/FlowiseAI/Flowise?style=social)](https://star-history.com/#FlowiseAI/Flowise)
-[![GitHub fork](https://img.shields.io/github/forks/FlowiseAI/Flowise?style=social)](https://github.com/FlowiseAI/Flowise/fork)
+[![Twitter Follow](https://img.shields.io/twitter/follow/SynapseFlowAI?style=social)](https://twitter.com/SynapseFlowAI)
+[![GitHub star chart](https://img.shields.io/github/stars/SynapseFlowAI/SynapseFlow?style=social)](https://star-history.com/#SynapseFlowAI/SynapseFlow)
+[![GitHub fork](https://img.shields.io/github/forks/SynapseFlowAI/SynapseFlow?style=social)](https://github.com/SynapseFlowAI/SynapseFlow/fork)
 
 [English](../README.md) | 繁體中文 | [简体中文](./README-ZH.md) | [日本語](./README-JA.md) | [한국어](./README-KR.md)
 
 <h3>可視化建置 AI/LLM 流程</h3>
-<a href="https://github.com/FlowiseAI/Flowise">
-<img width="100%" src="https://github.com/FlowiseAI/Flowise/blob/main/images/flowise_agentflow.gif?raw=true"></a>
+<a href="https://github.com/SynapseFlowAI/SynapseFlow">
+<img width="100%" src="https://github.com/SynapseFlowAI/SynapseFlow/blob/main/images/SynapseFlow_agentflow.gif?raw=true"></a>
 
 ## ⚡ 快速開始
 
 下載並安裝 [NodeJS](https://nodejs.org/en/download) >= 18.15.0
 
-1. 安裝 Flowise
+1. 安裝 SynapseFlow
     ```bash
-    npm install -g flowise
+    npm install -g SynapseFlow
     ```
-2. 啟動 Flowise
+2. 啟動 SynapseFlow
 
     ```bash
-    npx flowise start
+    npx SynapseFlow start
     ```
 
 3. 打開 [http://localhost:3000](http://localhost:3000)
@@ -37,7 +37,7 @@
 
 ### Docker Compose
 
-1. 複製 Flowise 專案
+1. 複製 SynapseFlow 專案
 2. 進入專案根目錄的 `docker` 資料夾
 3. 複製 `.env.example` 文件，貼到相同位置，並重新命名為 `.env` 文件
 4. `docker compose up -d`
@@ -48,22 +48,22 @@
 
 1. 本地建置映像：
     ```bash
-    docker build --no-cache -t flowise .
+    docker build --no-cache -t SynapseFlow .
     ```
 2. 運行映像：
 
     ```bash
-    docker run -d --name flowise -p 3000:3000 flowise
+    docker run -d --name SynapseFlow -p 3000:3000 SynapseFlow
     ```
 
 3. 停止映像：
     ```bash
-    docker stop flowise
+    docker stop SynapseFlow
     ```
 
 ## 👨‍💻 開發者
 
-Flowise 在單個 mono 儲存庫中有 3 個不同的模組。
+SynapseFlow 在單個 mono 儲存庫中有 3 個不同的模組。
 
 -   `server`: 提供 API 邏輯的 Node 後端
 -   `ui`: React 前端
@@ -82,13 +82,13 @@ Flowise 在單個 mono 儲存庫中有 3 個不同的模組。
 1.  複製儲存庫
 
     ```bash
-    git clone https://github.com/FlowiseAI/Flowise.git
+    git clone https://github.com/SynapseFlowAI/SynapseFlow.git
     ```
 
 2.  進入儲存庫文件夾
 
     ```bash
-    cd Flowise
+    cd SynapseFlow
     ```
 
 3.  安裝所有模組的所有依賴項：
@@ -134,43 +134,43 @@ Flowise 在單個 mono 儲存庫中有 3 個不同的模組。
 
 ## 🌱 環境變數
 
-Flowise 支持不同的環境變數來配置您的實例。您可以在 `packages/server` 文件夾中的 `.env` 文件中指定以下變數。閱讀 [更多](https://github.com/FlowiseAI/Flowise/blob/main/CONTRIBUTING.md#-env-variables)
+SynapseFlow 支持不同的環境變數來配置您的實例。您可以在 `packages/server` 文件夾中的 `.env` 文件中指定以下變數。閱讀 [更多](https://github.com/SynapseFlowAI/SynapseFlow/blob/main/CONTRIBUTING.md#-env-variables)
 
 ## 📖 文檔
 
-[Flowise 文檔](https://docs.flowiseai.com/)
+[SynapseFlow 文檔](https://docs.SynapseFlowai.com/)
 
 ## 🌐 自行架設
 
-在您現有的基礎設施中部署 Flowise，我們支持各種自行架設選項 [部署](https://docs.flowiseai.com/configuration/deployment)
+在您現有的基礎設施中部署 SynapseFlow，我們支持各種自行架設選項 [部署](https://docs.SynapseFlowai.com/configuration/deployment)
 
--   [AWS](https://docs.flowiseai.com/configuration/deployment/aws)
--   [Azure](https://docs.flowiseai.com/configuration/deployment/azure)
--   [Digital Ocean](https://docs.flowiseai.com/configuration/deployment/digital-ocean)
--   [GCP](https://docs.flowiseai.com/configuration/deployment/gcp)
--   [阿里雲](https://computenest.console.aliyun.com/service/instance/create/default?type=user&ServiceName=Flowise社区版)
+-   [AWS](https://docs.SynapseFlowai.com/configuration/deployment/aws)
+-   [Azure](https://docs.SynapseFlowai.com/configuration/deployment/azure)
+-   [Digital Ocean](https://docs.SynapseFlowai.com/configuration/deployment/digital-ocean)
+-   [GCP](https://docs.SynapseFlowai.com/configuration/deployment/gcp)
+-   [阿里雲](https://computenest.console.aliyun.com/service/instance/create/default?type=user&ServiceName=SynapseFlow社区版)
 -   <details>
       <summary>其他</summary>
 
-    -   [Railway](https://docs.flowiseai.com/configuration/deployment/railway)
+    -   [Railway](https://docs.SynapseFlowai.com/configuration/deployment/railway)
 
         [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/pn4G8S?referralCode=WVNPD9)
 
-    -   [Render](https://docs.flowiseai.com/configuration/deployment/render)
+    -   [Render](https://docs.SynapseFlowai.com/configuration/deployment/render)
 
-        [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://docs.flowiseai.com/configuration/deployment/render)
+        [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://docs.SynapseFlowai.com/configuration/deployment/render)
 
-    -   [HuggingFace Spaces](https://docs.flowiseai.com/deployment/hugging-face)
+    -   [HuggingFace Spaces](https://docs.SynapseFlowai.com/deployment/hugging-face)
 
-        <a href="https://huggingface.co/spaces/FlowiseAI/Flowise"><img src="https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg" alt="HuggingFace Spaces"></a>
+        <a href="https://huggingface.co/spaces/SynapseFlowAI/SynapseFlow"><img src="https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg" alt="HuggingFace Spaces"></a>
 
-    -   [Elestio](https://elest.io/open-source/flowiseai)
+    -   [Elestio](https://elest.io/open-source/SynapseFlowai)
 
-        [![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/flowiseai)
+        [![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/SynapseFlowai)
 
-    -   [Sealos](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dflowise)
+    -   [Sealos](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3DSynapseFlow)
 
-        [![](https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3Dflowise)
+        [![](https://raw.githubusercontent.com/labring-actions/templates/main/Deploy-on-Sealos.svg)](https://cloud.sealos.io/?openapp=system-template%3FtemplateName%3DSynapseFlow)
 
     -   [RepoCloud](https://repocloud.io/details/?app_id=29)
 
@@ -178,24 +178,24 @@ Flowise 支持不同的環境變數來配置您的實例。您可以在 `package
 
       </details>
 
-## ☁️ Flowise 雲端平台
+## ☁️ SynapseFlow 雲端平台
 
-[開始使用 Flowise 雲端平台](https://flowiseai.com/)
+[開始使用 SynapseFlow 雲端平台](https://SynapseFlowai.com/)
 
 ## 🙋 支持
 
-隨時在 [討論](https://github.com/FlowiseAI/Flowise/discussions) 中提出任何問題、提出問題和請求新功能
+隨時在 [討論](https://github.com/SynapseFlowAI/SynapseFlow/discussions) 中提出任何問題、提出問題和請求新功能
 
 ## 🙌 貢獻
 
 感謝這些出色的貢獻者
 
-<a href="https://github.com/FlowiseAI/Flowise/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=FlowiseAI/Flowise" />
+<a href="https://github.com/SynapseFlowAI/SynapseFlow/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=SynapseFlowAI/SynapseFlow" />
 </a>
 
 請參閱 [貢獻指南](../CONTRIBUTING.md)。如果您有任何問題或問題，請透過 [Discord](https://discord.gg/jbaHfsRVBW) 與我們聯繫。
-[![Star History Chart](https://api.star-history.com/svg?repos=FlowiseAI/Flowise&type=Timeline)](https://star-history.com/#FlowiseAI/Flowise&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=SynapseFlowAI/SynapseFlow&type=Timeline)](https://star-history.com/#SynapseFlowAI/SynapseFlow&Date)
 
 ## 📄 許可證
 

@@ -1,6 +1,6 @@
 import { getRunningExpressApp } from '../../../utils/getRunningExpressApp'
 import { LoginActivity } from '../../database/entities/EnterpriseEntities'
-import { InternalFlowiseError } from '../../../errors/internalFlowiseError'
+import { InternalSynapseFlowError } from '../../../errors/internalSynapseFlowError'
 import { StatusCodes } from 'http-status-codes'
 import { getErrorMessage } from '../../../errors/utils'
 import { Between, In } from 'typeorm'
@@ -61,7 +61,7 @@ const fetchLoginActivity = async (body: any) => {
             pageSize: PAGE_SIZE
         }
     } catch (error) {
-        throw new InternalFlowiseError(
+        throw new InternalSynapseFlowError(
             StatusCodes.INTERNAL_SERVER_ERROR,
             `Error: auditService.getLoginActivity - ${getErrorMessage(error)}`
         )
@@ -85,7 +85,7 @@ const recordLoginActivity = async (username: string, activityCode: LoginActivity
         const result = await appServer.AppDataSource.getRepository(LoginActivity).save(loginActivity)
         return result
     } catch (error) {
-        throw new InternalFlowiseError(StatusCodes.INTERNAL_SERVER_ERROR, `Error: authService.loginActivity - ${getErrorMessage(error)}`)
+        throw new InternalSynapseFlowError(StatusCodes.INTERNAL_SERVER_ERROR, `Error: authService.loginActivity - ${getErrorMessage(error)}`)
     }
 }
 
@@ -98,7 +98,7 @@ const deleteLoginActivity = async (body: any) => {
         })
         return 'OK'
     } catch (error) {
-        throw new InternalFlowiseError(StatusCodes.INTERNAL_SERVER_ERROR, `Error: authService.loginActivity - ${getErrorMessage(error)}`)
+        throw new InternalSynapseFlowError(StatusCodes.INTERNAL_SERVER_ERROR, `Error: authService.loginActivity - ${getErrorMessage(error)}`)
     }
 }
 

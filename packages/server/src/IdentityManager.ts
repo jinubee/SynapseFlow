@@ -1,13 +1,13 @@
 /**
- * Copyright (c) 2023-present FlowiseAI, Inc.
+ * Copyright (c) 2023-present SynapseFlowAI, Inc.
  *
- * The Enterprise and Cloud versions of Flowise are licensed under the [Commercial License](https://github.com/FlowiseAI/Flowise/tree/main/packages/server/src/enterprise/LICENSE.md).
- * Unauthorized copying, modification, distribution, or use of the Enterprise and Cloud versions is strictly prohibited without a valid license agreement from FlowiseAI, Inc.
+ * The Enterprise and Cloud versions of SynapseFlow are licensed under the [Commercial License](https://github.com/SynapseFlowAI/SynapseFlow/tree/main/packages/server/src/enterprise/LICENSE.md).
+ * Unauthorized copying, modification, distribution, or use of the Enterprise and Cloud versions is strictly prohibited without a valid license agreement from SynapseFlowAI, Inc.
  *
  * The Open Source version is licensed under the Apache License, Version 2.0 (the "License")
  *
  * For information about licensing of the Enterprise and Cloud versions, please contact:
- * security@flowiseai.com
+ * security@SynapseFlowai.com
  */
 
 import axios from 'axios'
@@ -26,7 +26,7 @@ import AzureSSO from './enterprise/sso/AzureSSO'
 import GithubSSO from './enterprise/sso/GithubSSO'
 import GoogleSSO from './enterprise/sso/GoogleSSO'
 import SSOBase from './enterprise/sso/SSOBase'
-import { InternalFlowiseError } from './errors/internalFlowiseError'
+import { InternalSynapseFlowError } from './errors/internalSynapseFlowError'
 import { Platform, UserPlan } from './Interface'
 import { StripeManager } from './StripeManager'
 import { UsageCacheManager } from './UsageCacheManager'
@@ -101,10 +101,10 @@ export class IdentityManager {
 
     private _validateLicenseKey = async () => {
         const LICENSE_URL = process.env.LICENSE_URL
-        const FLOWISE_EE_LICENSE_KEY = process.env.FLOWISE_EE_LICENSE_KEY
+        const SynapseFlow_EE_LICENSE_KEY = process.env.SynapseFlow_EE_LICENSE_KEY
 
         // First check if license key is missing
-        if (!FLOWISE_EE_LICENSE_KEY) {
+        if (!SynapseFlow_EE_LICENSE_KEY) {
             this.licenseValid = false
             this.currentInstancePlatform = Platform.OPEN_SOURCE
             return
@@ -112,7 +112,7 @@ export class IdentityManager {
 
         try {
             if (process.env.OFFLINE === 'true') {
-                const decodedLicense = this._offlineVerifyLicense(FLOWISE_EE_LICENSE_KEY)
+                const decodedLicense = this._offlineVerifyLicense(SynapseFlow_EE_LICENSE_KEY)
 
                 if (!decodedLicense) {
                     this.licenseValid = false
@@ -137,13 +137,13 @@ export class IdentityManager {
                 this.currentInstancePlatform = Platform.ENTERPRISE
             } else if (LICENSE_URL) {
                 try {
-                    const response = await axios.post(`${LICENSE_URL}/enterprise/verify`, { license: FLOWISE_EE_LICENSE_KEY })
+                    const response = await axios.post(`${LICENSE_URL}/enterprise/verify`, { license: SynapseFlow_EE_LICENSE_KEY })
                     this.licenseValid = response.data?.valid
 
                     if (!LICENSE_URL.includes('api')) this.currentInstancePlatform = Platform.ENTERPRISE
                     else if (LICENSE_URL.includes('v1')) this.currentInstancePlatform = Platform.ENTERPRISE
                     else if (LICENSE_URL.includes('v2')) this.currentInstancePlatform = response.data?.platform
-                    else throw new InternalFlowiseError(StatusCodes.INTERNAL_SERVER_ERROR, GeneralErrorMessage.UNHANDLED_EDGE_CASE)
+                    else throw new InternalSynapseFlowError(StatusCodes.INTERNAL_SERVER_ERROR, GeneralErrorMessage.UNHANDLED_EDGE_CASE)
                 } catch (error) {
                     console.error('Error verifying license key:', error)
                     this.licenseValid = false
@@ -377,7 +377,7 @@ export class IdentityManager {
             throw new Error('Stripe manager is not initialized')
         }
         if (!req.user) {
-            throw new InternalFlowiseError(StatusCodes.UNAUTHORIZED, GeneralErrorMessage.UNAUTHORIZED)
+            throw new InternalSynapseFlowError(StatusCodes.UNAUTHORIZED, GeneralErrorMessage.UNAUTHORIZED)
         }
         const { success, subscription } = await this.stripeManager.updateSubscriptionPlan(subscriptionId, newPlanId, prorationDate)
         if (success) {
@@ -447,7 +447,7 @@ export class IdentityManager {
             }
 
             req.session.save((err) => {
-                if (err) throw new InternalFlowiseError(StatusCodes.BAD_REQUEST, GeneralErrorMessage.UNHANDLED_EDGE_CASE)
+                if (err) throw new InternalSynapseFlowError(StatusCodes.BAD_REQUEST, GeneralErrorMessage.UNHANDLED_EDGE_CASE)
             })
 
             return {

@@ -244,7 +244,7 @@ const SignInPage = () => {
                                 {isCloud && (
                                     <Typography variant='body2' sx={{ color: theme.palette.grey[600], mt: 1, textAlign: 'right' }}>
                                         <a
-                                            href='https://docs.flowiseai.com/migration-guide/cloud-migration'
+                                            href='https://docs.SynapseFlowai.com/migration-guide/cloud-migration'
                                             target='_blank'
                                             rel='noopener noreferrer'
                                             style={{ color: theme.palette.primary.main }}

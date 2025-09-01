@@ -1,6 +1,6 @@
-import { handleEscapeCharacters, ICommonObject } from 'flowise-components'
+import { handleEscapeCharacters, ICommonObject } from 'SynapseFlow-components'
 import { databaseEntities } from '.'
-import { InternalFlowiseError } from '../errors/internalFlowiseError'
+import { InternalSynapseFlowError } from '../errors/internalSynapseFlowError'
 import { StatusCodes } from 'http-status-codes'
 import { getErrorMessage } from '../errors/utils'
 import { DataSource } from 'typeorm'
@@ -51,13 +51,13 @@ export const executeCustomNodeFunction = async ({
 
                 return dbResponse
             } catch (error) {
-                throw new InternalFlowiseError(StatusCodes.INTERNAL_SERVER_ERROR, `Error running custom function: ${error}`)
+                throw new InternalSynapseFlowError(StatusCodes.INTERNAL_SERVER_ERROR, `Error running custom function: ${error}`)
             }
         } else {
-            throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `Node customFunction not found`)
+            throw new InternalSynapseFlowError(StatusCodes.NOT_FOUND, `Node customFunction not found`)
         }
     } catch (error) {
-        throw new InternalFlowiseError(
+        throw new InternalSynapseFlowError(
             StatusCodes.INTERNAL_SERVER_ERROR,
             `Error: nodesService.executeCustomFunction - ${getErrorMessage(error)}`
         )

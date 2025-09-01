@@ -9,14 +9,14 @@ import {
     removeSpecificFileFromUpload,
     isValidUUID,
     isPathTraversal
-} from 'flowise-components'
+} from 'SynapseFlow-components'
 import { getRunningExpressApp } from './getRunningExpressApp'
 import { getErrorMessage } from '../errors/utils'
 import { checkStorage, updateStorageUsage } from './quotaUsage'
 import { ChatFlow } from '../database/entities/ChatFlow'
 import { Workspace } from '../enterprise/database/entities/workspace.entity'
 import { Organization } from '../enterprise/database/entities/organization.entity'
-import { InternalFlowiseError } from '../errors/internalFlowiseError'
+import { InternalSynapseFlowError } from '../errors/internalSynapseFlowError'
 import { StatusCodes } from 'http-status-codes'
 
 /**
@@ -28,10 +28,10 @@ export const createFileAttachment = async (req: Request) => {
 
     const chatflowid = req.params.chatflowId
     if (!chatflowid || !isValidUUID(chatflowid)) {
-        throw new InternalFlowiseError(StatusCodes.BAD_REQUEST, 'Invalid chatflowId format - must be a valid UUID')
+        throw new InternalSynapseFlowError(StatusCodes.BAD_REQUEST, 'Invalid chatflowId format - must be a valid UUID')
     }
     if (isPathTraversal(chatflowid)) {
-        throw new InternalFlowiseError(StatusCodes.BAD_REQUEST, 'Invalid path characters detected')
+        throw new InternalSynapseFlowError(StatusCodes.BAD_REQUEST, 'Invalid path characters detected')
     }
 
     const chatId = req.params.chatId
@@ -41,7 +41,7 @@ export const createFileAttachment = async (req: Request) => {
         id: chatflowid
     })
     if (!chatflow) {
-        throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `Chatflow ${chatflowid} not found`)
+        throw new InternalSynapseFlowError(StatusCodes.NOT_FOUND, `Chatflow ${chatflowid} not found`)
     }
 
     let orgId = req.user?.activeOrganizationId || ''
@@ -55,7 +55,7 @@ export const createFileAttachment = async (req: Request) => {
             id: chatflowWorkspaceId
         })
         if (!workspace) {
-            throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `Workspace ${chatflowWorkspaceId} not found`)
+            throw new InternalSynapseFlowError(StatusCodes.NOT_FOUND, `Workspace ${chatflowWorkspaceId} not found`)
         }
         workspaceId = workspace.id
 
@@ -63,7 +63,7 @@ export const createFileAttachment = async (req: Request) => {
             id: workspace.organizationId
         })
         if (!org) {
-            throw new InternalFlowiseError(StatusCodes.NOT_FOUND, `Organization ${workspace.organizationId} not found`)
+            throw new InternalSynapseFlowError(StatusCodes.NOT_FOUND, `Organization ${workspace.organizationId} not found`)
         }
 
         orgId = org.id

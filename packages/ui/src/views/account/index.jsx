@@ -839,7 +839,7 @@ const AccountSettings = () => {
                                     >
                                         <Typography variant='body2'>Migrate from existing cloud subscription?</Typography>
                                         <Typography variant='body2' color='text.secondary'>
-                                            {`If you have an existing cloud app like <your-app>.app.flowiseai.com, after finished migrating your work, you can cancel the previous subscription. We'll send you an email with a link to cancel your previous subscription.`}
+                                            {`If you have an existing cloud app like <your-app>.app.SynapseFlowai.com, after finished migrating your work, you can cancel the previous subscription. We'll send you an email with a link to cancel your previous subscription.`}
                                         </Typography>
                                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '100%' }}>
                                             <OutlinedInput

@@ -66,7 +66,7 @@ const HowToUseVariablesDialog = ({ show, onCancel }) => {
                 />
                 <p>
                     Read more from{' '}
-                    <a target='_blank' rel='noreferrer' href='https://docs.flowiseai.com/using-flowise/variables'>
+                    <a target='_blank' rel='noreferrer' href='https://docs.SynapseFlowai.com/using-SynapseFlow/variables'>
                         docs
                     </a>
                 </p>

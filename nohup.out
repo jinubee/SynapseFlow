@@ -2436,7 +2436,7 @@ From github.com:jinubee/SynapseFlow
 Updating a6c1c8db..bfe51c52
 Fast-forward
  .../nodes/chatmodels/ChatOllama/ChatOllama.ts      |  36 +-
- .../chatmodels/ChatOllama/FlowiseChatOllama.ts     |  27 +
+ .../chatmodels/ChatOllama/SynapseFlowChatOllama.ts     |  27 +
  .../ChatOllamaFunction/ChatOllamaFunction.ts       | 810 ---------------------
  .../nodes/chatmodels/ChatOllamaFunction/Ollama.svg |   1 -
  .../nodes/chatmodels/ChatOllamaFunction/utils.ts   | 185 -----
@@ -2451,7 +2451,7 @@ Fast-forward
  packages/server/src/utils/upsertVector.ts          |   3 +-
  packages/ui/src/views/chatmessage/ChatMessage.jsx  |   3 +-
  15 files changed, 663 insertions(+), 1007 deletions(-)
- create mode 100644 packages/components/nodes/chatmodels/ChatOllama/FlowiseChatOllama.ts
+ create mode 100644 packages/components/nodes/chatmodels/ChatOllama/SynapseFlowChatOllama.ts
  delete mode 100644 packages/components/nodes/chatmodels/ChatOllamaFunction/ChatOllamaFunction.ts
  delete mode 100644 packages/components/nodes/chatmodels/ChatOllamaFunction/Ollama.svg
  delete mode 100644 packages/components/nodes/chatmodels/ChatOllamaFunction/utils.ts
@@ -2874,17 +2874,17 @@ Fast-forward
  .../components/nodes/agents/ToolAgent/ToolAgent.ts |    2 +-
  .../components/nodes/agents/XMLAgent/XMLAgent.ts   |    1 -
  .../nodes/chatmodels/AWSBedrock/AWSChatBedrock.ts  |   24 +-
- .../chatmodels/AWSBedrock/FlowiseAWSChatBedrock.ts |   11 +-
+ .../chatmodels/AWSBedrock/SynapseFlowAWSChatBedrock.ts |   11 +-
  .../chatmodels/AzureChatOpenAI/AzureChatOpenAI.ts  |   12 +-
  .../ChatAlibabaTongyi/ChatAlibabaTongyi.ts         |   12 +-
  .../chatmodels/ChatAnthropic/ChatAnthropic.ts      |   12 +-
- .../ChatAnthropic/FlowiseChatAnthropic.ts          |    7 +-
+ .../ChatAnthropic/SynapseFlowChatAnthropic.ts          |    7 +-
  .../chatmodels/ChatBaiduWenxin/ChatBaiduWenxin.ts  |   30 +-
  .../nodes/chatmodels/ChatCerebras/ChatCerebras.ts  |   12 +-
  .../nodes/chatmodels/ChatCohere/ChatCohere.ts      |    9 +-
  .../chatmodels/ChatFireworks/ChatFireworks.ts      |    9 +-
  .../ChatGoogleGenerativeAI.ts                      |   14 +-
- .../FlowiseChatGoogleGenerativeAI.ts               |   13 +-
+ .../SynapseFlowChatGoogleGenerativeAI.ts               |   13 +-
  .../chatmodels/ChatGooglePaLM/ChatGooglePaLM.ts    |  128 --
  .../nodes/chatmodels/ChatGooglePaLM/GooglePaLM.svg |    1 -
  .../ChatGoogleVertexAI/ChatGoogleVertexAI.ts       |   84 +-
@@ -2894,7 +2894,7 @@ Fast-forward
  .../nodes/chatmodels/ChatMistral/ChatMistral.ts    |   10 +-
  .../nodes/chatmodels/ChatOllama/ChatOllama.ts      |   17 +-
  .../nodes/chatmodels/ChatOpenAI/ChatOpenAI.ts      |   12 +-
- .../chatmodels/ChatOpenAI/FlowiseChatOpenAI.ts     |    5 +-
+ .../chatmodels/ChatOpenAI/SynapseFlowChatOpenAI.ts     |    5 +-
  .../ChatOpenAICustom/ChatOpenAICustom.ts           |   10 +-
  .../chatmodels/ChatTogetherAI/ChatTogetherAI.ts    |    9 +-
  .../components/nodes/chatmodels/ChatXAI/ChatXAI.ts |  105 +
@@ -4953,7 +4953,7 @@ Switched to a new branch 'Create-SECURITY.md'
 .git/rebase-apply/patch:12: trailing whitespace.
 ### Responsible Disclosure Policy  
 .git/rebase-apply/patch:14: trailing whitespace.
-At Flowise, we prioritize security and continuously work to safeguard our systems. However, vulnerabilities can still exist. If you identify a security issue, please report it to us so we can address it promptly. Your cooperation helps us better protect our platform and users.  
+At SynapseFlow, we prioritize security and continuously work to safeguard our systems. However, vulnerabilities can still exist. If you identify a security issue, please report it to us so we can address it promptly. Your cooperation helps us better protect our platform and users.  
 .git/rebase-apply/patch:16: trailing whitespace.
 ### Vulnerabilities  
 .git/rebase-apply/patch:20: trailing whitespace.
@@ -5185,12 +5185,12 @@ Fast-forward
  packages/components/models.json                    |  12 +
  .../GraphCypherQAChain/GraphCypherQAChain.ts       |  24 +-
  .../chatmodels/AzureChatOpenAI/AzureChatOpenAI.ts  |  45 ++-
- .../AzureChatOpenAI/FlowiseAzureChatOpenAI.ts      |  41 +++
+ .../AzureChatOpenAI/SynapseFlowAzureChatOpenAI.ts      |  41 +++
  .../nodes/chatmodels/ChatCerebras/ChatCerebras.ts  |  18 +-
  .../nodes/chatmodels/ChatLocalAI/ChatLocalAI.ts    |   8 +-
  .../nodes/chatmodels/ChatNvdiaNIM/ChatNvdiaNIM.ts  |  19 +-
  .../nodes/chatmodels/ChatOpenAI/ChatOpenAI.ts      |  66 +++-
- .../chatmodels/ChatOpenAI/FlowiseChatOpenAI.ts     |  15 +-
+ .../chatmodels/ChatOpenAI/SynapseFlowChatOpenAI.ts     |  15 +-
  .../ChatOpenAICustom/ChatOpenAICustom.ts           |  18 +-
  .../chatmodels/ChatOpenRouter/ChatOpenRouter.ts    |  18 +-
  .../nodes/chatmodels/Deepseek/Deepseek.ts          |   6 +-
@@ -5209,7 +5209,7 @@ Fast-forward
  .../src/ui-component/dialog/ViewMessagesDialog.jsx |   4 +-
  pnpm-lock.yaml                                     | 409 ++++++++++++---------
  27 files changed, 506 insertions(+), 294 deletions(-)
- create mode 100644 packages/components/nodes/chatmodels/AzureChatOpenAI/FlowiseAzureChatOpenAI.ts
+ create mode 100644 packages/components/nodes/chatmodels/AzureChatOpenAI/SynapseFlowAzureChatOpenAI.ts
 PR合并成功
 Already on 'main'
 Your branch is up to date with 'origin/main'.
@@ -6431,15 +6431,15 @@ Fast-forward
  CONTRIBUTING.md                                    |  2 +-
  package.json                                       |  2 +-
  packages/components/models.json                    | 16 +++-
- .../FlowiseGoogleAICacheManager.ts                 | 44 +++++++++++
+ .../SynapseFlowGoogleAICacheManager.ts                 | 44 +++++++++++
  .../GoogleGemini.svg                               | 34 +++++++++
  .../GoogleGenerativeAIContextCache.ts              | 53 ++++++++++++++
  .../ChatGoogleGenerativeAI.ts                      |  9 +++
- .../FlowiseChatGoogleGenerativeAI.ts               | 75 +++++++++++++------
+ .../SynapseFlowChatGoogleGenerativeAI.ts               | 75 +++++++++++++------
  packages/components/package.json                   |  4 +-
  pnpm-lock.yaml                                     | 85 +++++++++++-----------
  10 files changed, 250 insertions(+), 74 deletions(-)
- create mode 100644 packages/components/nodes/cache/GoogleGenerativeAIContextCache/FlowiseGoogleAICacheManager.ts
+ create mode 100644 packages/components/nodes/cache/GoogleGenerativeAIContextCache/SynapseFlowGoogleAICacheManager.ts
  create mode 100644 packages/components/nodes/cache/GoogleGenerativeAIContextCache/GoogleGemini.svg
  create mode 100644 packages/components/nodes/cache/GoogleGenerativeAIContextCache/GoogleGenerativeAIContextCache.ts
 PR合并成功
@@ -6476,7 +6476,7 @@ Fast-forward
  i18n/README-KR.md                                  |  2 +-
  i18n/README-TW.md                                  |  2 +-
  i18n/README-ZH.md                                  |  2 +-
- .../FlowiseChatGoogleGenerativeAI.ts               | 30 ++++++++++++++++++++--
+ .../SynapseFlowChatGoogleGenerativeAI.ts               | 30 ++++++++++++++++++++--
  .../server/src/controllers/documentstore/index.ts  |  3 +--
  6 files changed, 33 insertions(+), 8 deletions(-)
 PR合并成功
@@ -6613,7 +6613,7 @@ Updating 49493982..ad0feb7e
 Fast-forward
  .../components/credentials/JiraApi.credential.ts   |  33 ++
  packages/components/models.json                    | 611 +++++++++++++++------
- .../chatmodels/AWSBedrock/FlowiseAWSChatBedrock.ts |   2 +-
+ .../chatmodels/AWSBedrock/SynapseFlowAWSChatBedrock.ts |   2 +-
  .../components/nodes/documentloaders/Jira/Jira.ts  | 194 +++++++
  .../components/nodes/documentloaders/Jira/jira.svg |   2 +
  5 files changed, 684 insertions(+), 158 deletions(-)
@@ -6723,7 +6723,7 @@ From github.com:jinubee/SynapseFlow
 Updating 033e256e..3010dd30
 Fast-forward
  .../ChatGoogleGenerativeAI.ts                      | 10 +++++++
- .../FlowiseChatGoogleGenerativeAI.ts               | 31 +++++++++++++---------
+ .../SynapseFlowChatGoogleGenerativeAI.ts               | 31 +++++++++++++---------
  packages/ui/src/ErrorBoundary.jsx                  |  4 +--
  3 files changed, 31 insertions(+), 14 deletions(-)
 PR合并成功
@@ -6866,7 +6866,7 @@ Fast-forward
  .../credentials/PerplexityApi.credential.ts        |    27 +
  packages/components/models.json                    |    43 +-
  .../chatmodels/ChatPerplexity/ChatPerplexity.ts    |   237 +
- .../ChatPerplexity/FlowiseChatPerplexity.ts        |    32 +
+ .../ChatPerplexity/SynapseFlowChatPerplexity.ts        |    32 +
  .../nodes/chatmodels/ChatPerplexity/perplexity.svg |     8 +
  packages/components/package.json                   |     2 +-
  packages/server/.env.example                       |     1 +
@@ -6877,7 +6877,7 @@ Fast-forward
  14 files changed, 36354 insertions(+), 36498 deletions(-)
  create mode 100644 packages/components/credentials/PerplexityApi.credential.ts
  create mode 100644 packages/components/nodes/chatmodels/ChatPerplexity/ChatPerplexity.ts
- create mode 100644 packages/components/nodes/chatmodels/ChatPerplexity/FlowiseChatPerplexity.ts
+ create mode 100644 packages/components/nodes/chatmodels/ChatPerplexity/SynapseFlowChatPerplexity.ts
  create mode 100644 packages/components/nodes/chatmodels/ChatPerplexity/perplexity.svg
 PR合并成功
 Already on 'main'
@@ -7026,9 +7026,9 @@ Fast-forward
  i18n/README-KR.md                                  |   13 +-
  i18n/README-TW.md                                  |   13 +-
  i18n/README-ZH.md                                  |   13 +-
- images/flowise_agentflow.gif                       |  Bin 0 -> 14745724 bytes
- images/flowise_dark.svg                            |    1 +
- images/flowise_white.svg                           |    1 +
+ images/SynapseFlow_agentflow.gif                       |  Bin 0 -> 14745724 bytes
+ images/SynapseFlow_dark.svg                            |    1 +
+ images/SynapseFlow_white.svg                           |    1 +
  package.json                                       |    2 +-
  packages/components/README-ZH.md                   |    2 +-
  packages/components/README.md                      |    2 +-
@@ -7134,8 +7134,8 @@ Fast-forward
  packages/ui/src/api/validation.js                  |    7 +
  .../ui/src/assets/images/agentflow-generator.gif   |  Bin 0 -> 37674 bytes
  packages/ui/src/assets/images/executions_empty.svg |    1 +
- packages/ui/src/assets/images/flowise_dark.svg     |    1 +
- packages/ui/src/assets/images/flowise_white.svg    |    1 +
+ packages/ui/src/assets/images/SynapseFlow_dark.svg     |    1 +
+ packages/ui/src/assets/images/SynapseFlow_white.svg    |    1 +
  packages/ui/src/assets/images/key.svg              |    1 +
  packages/ui/src/assets/images/tool.svg             |    1 +
  packages/ui/src/assets/images/validate_empty.svg   |    1 +
@@ -7237,9 +7237,9 @@ Fast-forward
  .../ui/src/views/vectorstore/VectorStorePopUp.jsx  |    6 +-
  pnpm-lock.yaml                                     | 1240 ++++++++---
  215 files changed, 33246 insertions(+), 5205 deletions(-)
- create mode 100644 images/flowise_agentflow.gif
- create mode 100644 images/flowise_dark.svg
- create mode 100644 images/flowise_white.svg
+ create mode 100644 images/SynapseFlow_agentflow.gif
+ create mode 100644 images/SynapseFlow_dark.svg
+ create mode 100644 images/SynapseFlow_white.svg
  create mode 100644 packages/components/credentials/HTTPApiKey.credential.ts
  create mode 100644 packages/components/credentials/HTTPBasicAuth.credential.ts
  create mode 100644 packages/components/credentials/HTTPBearerToken.credential.ts
@@ -7294,8 +7294,8 @@ Fast-forward
  create mode 100644 packages/ui/src/api/validation.js
  create mode 100644 packages/ui/src/assets/images/agentflow-generator.gif
  create mode 100644 packages/ui/src/assets/images/executions_empty.svg
- create mode 100644 packages/ui/src/assets/images/flowise_dark.svg
- create mode 100644 packages/ui/src/assets/images/flowise_white.svg
+ create mode 100644 packages/ui/src/assets/images/SynapseFlow_dark.svg
+ create mode 100644 packages/ui/src/assets/images/SynapseFlow_white.svg
  create mode 100644 packages/ui/src/assets/images/key.svg
  create mode 100644 packages/ui/src/assets/images/tool.svg
  create mode 100644 packages/ui/src/assets/images/validate_empty.svg
@@ -8630,7 +8630,7 @@ Fast-forward
  i18n/README-KR.md                                        |  4 ++--
  i18n/README-TW.md                                        |  4 ++--
  i18n/README-ZH.md                                        |  4 ++--
- .../FlowiseChatGoogleGenerativeAI.ts                     |  2 +-
+ .../SynapseFlowChatGoogleGenerativeAI.ts                     |  2 +-
  packages/ui/src/ui-component/button/FlowListMenu.jsx     | 11 +++++++++--
  packages/ui/src/ui-component/table/FlowListTable.jsx     | 16 ++++++++++++++--
  packages/ui/src/views/agentflows/index.jsx               |  1 +
@@ -9394,7 +9394,7 @@ Applying: Release/3.0.2 (#223)
 .git/rebase-apply/patch:66: trailing whitespace.
                           steps.defaults.outputs.registry == 'docker_hub' && 
 .git/rebase-apply/patch:67: trailing whitespace.
-                          format('flowiseai/flowise{0}:{1}', 
+                          format('SynapseFlowai/SynapseFlow{0}:{1}', 
 warning: squelched 6 whitespace errors
 warning: 11 lines add whitespace errors.
 Applying: Bugfix/Update worker docker
@@ -9520,7 +9520,7 @@ Fast-forward
  .../chatflows/Context Chat Engine.json             |    1 -
  .../marketplaces/chatflows/Conversation Chain.json |    3 +-
  .../Conversational Retrieval QA Chain.json         |    1 -
- ...{Flowise Docs QnA.json => Github Docs QnA.json} |    3 +-
+ ...{SynapseFlow Docs QnA.json => Github Docs QnA.json} |    3 +-
  packages/server/marketplaces/chatflows/IfElse.json | 1246 ------------
  .../server/marketplaces/chatflows/Local QnA.json   |    1 -
  .../marketplaces/chatflows/Multi Prompt Chain.json |  499 -----
@@ -9585,7 +9585,7 @@ Fast-forward
  create mode 100644 packages/server/marketplaces/agentflowsv2/Translator.json
  rename packages/server/marketplaces/agentflowsv2/{Slack Agent.json => Workplace Chat.json} (81%)
  delete mode 100644 packages/server/marketplaces/chatflows/Antonym.json
- rename packages/server/marketplaces/chatflows/{Flowise Docs QnA.json => Github Docs QnA.json} (99%)
+ rename packages/server/marketplaces/chatflows/{SynapseFlow Docs QnA.json => Github Docs QnA.json} (99%)
  delete mode 100644 packages/server/marketplaces/chatflows/IfElse.json
  delete mode 100644 packages/server/marketplaces/chatflows/Multi Prompt Chain.json
  delete mode 100644 packages/server/marketplaces/chatflows/Multi Retrieval QA Chain.json
@@ -9682,8 +9682,8 @@ Fast-forward
  .github/ISSUE_TEMPLATE/feature_request.md          |  13 -
  .github/ISSUE_TEMPLATE/feature_request.yml         |  68 ++
  .../ChatGoogleGenerativeAI.ts                      |  16 +-
- .../FlowiseChatGoogleGenerativeAI.ts               | 721 +-------------------
- .../FlowiseChatGoogleGenerativeAIBackup.ts         | 733 +++++++++++++++++++++
+ .../SynapseFlowChatGoogleGenerativeAI.ts               | 721 +-------------------
+ .../SynapseFlowChatGoogleGenerativeAIBackup.ts         | 733 +++++++++++++++++++++
  .../nodes/multiagents/Supervisor/Supervisor.ts     |   2 +-
  .../ExtractMetadataRetriever.ts                    |  18 +-
  .../ConditionAgent/ConditionAgent.ts               |  18 +-
@@ -9694,7 +9694,7 @@ Fast-forward
  create mode 100644 .github/ISSUE_TEMPLATE/bug_report.yml
  delete mode 100644 .github/ISSUE_TEMPLATE/feature_request.md
  create mode 100644 .github/ISSUE_TEMPLATE/feature_request.yml
- create mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/FlowiseChatGoogleGenerativeAIBackup.ts
+ create mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/SynapseFlowChatGoogleGenerativeAIBackup.ts
 PR合并成功
 Already on 'main'
 Your branch is up to date with 'origin/main'.
@@ -9933,8 +9933,8 @@ Fast-forward
  packages/components/nodes/agentflow/Agent/Agent.ts |    2 +-
  packages/components/nodes/agentflow/Tool/Tool.ts   |    2 +-
  .../ChatGoogleGenerativeAI.ts                      |    3 +-
- .../FlowiseChatGoogleGenerativeAI.ts               | 1013 +++++++++++++++++++-
- .../FlowiseChatGoogleGenerativeAIBackup.ts         |  733 --------------
+ .../SynapseFlowChatGoogleGenerativeAI.ts               | 1013 +++++++++++++++++++-
+ .../SynapseFlowChatGoogleGenerativeAIBackup.ts         |  733 --------------
  .../ChatGoogleGenerativeAI/utils/common.ts         |  630 ++++++++++++
  .../ChatGoogleGenerativeAI/utils/output_parsers.ts |   63 ++
  .../ChatGoogleGenerativeAI/utils/tools.ts          |  136 +++
@@ -9948,7 +9948,7 @@ Fast-forward
  .../src/ui-component/extended/FollowUpPrompts.jsx  |   18 +-
  pnpm-lock.yaml                                     |  272 +++---
  18 files changed, 2087 insertions(+), 876 deletions(-)
- delete mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/FlowiseChatGoogleGenerativeAIBackup.ts
+ delete mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/SynapseFlowChatGoogleGenerativeAIBackup.ts
  create mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/utils/common.ts
  create mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/utils/output_parsers.ts
  create mode 100644 packages/components/nodes/chatmodels/ChatGoogleGenerativeAI/utils/tools.ts
@@ -10290,12 +10290,12 @@ From github.com:jinubee/SynapseFlow
 Updating 3ad8c514..324e3fe1
 Fast-forward
  .../components/nodes/chatmodels/ChatXAI/ChatXAI.ts |  27 +-
- .../nodes/chatmodels/ChatXAI/FlowiseChatXAI.ts     |  29 +
+ .../nodes/chatmodels/ChatXAI/SynapseFlowChatXAI.ts     |  29 +
  packages/components/package.json                   |   2 +-
  packages/server/src/utils/getChatMessage.ts        |   2 +-
  pnpm-lock.yaml                                     | 716 +++++++--------------
  5 files changed, 276 insertions(+), 500 deletions(-)
- create mode 100644 packages/components/nodes/chatmodels/ChatXAI/FlowiseChatXAI.ts
+ create mode 100644 packages/components/nodes/chatmodels/ChatXAI/SynapseFlowChatXAI.ts
 PR合并成功
 Already on 'main'
 Your branch is up to date with 'origin/main'.
@@ -10854,7 +10854,7 @@ From github.com:jinubee/SynapseFlow
 Updating 7c2ccbed..d8a659db
 Fast-forward
  .../chatmodels/AzureChatOpenAI/AzureChatOpenAI.ts  |  59 +++++-
- .../AzureChatOpenAI/FlowiseAzureChatOpenAI.ts      |   7 +-
+ .../AzureChatOpenAI/SynapseFlowAzureChatOpenAI.ts      |   7 +-
  .../nodes/chatmodels/ChatCerebras/ChatCerebras.ts  |   3 +-
  .../chatmodels/ChatFireworks/ChatFireworks.ts      |   9 +-
  .../nodes/chatmodels/ChatFireworks/core.ts         | 126 ++++++++++++
@@ -10862,7 +10862,7 @@ Fast-forward
  .../nodes/chatmodels/ChatLocalAI/ChatLocalAI.ts    |   6 +-
  .../nodes/chatmodels/ChatNvdiaNIM/ChatNvdiaNIM.ts  |   1 +
  .../nodes/chatmodels/ChatOpenAI/ChatOpenAI.ts      |  62 +++++-
- .../chatmodels/ChatOpenAI/FlowiseChatOpenAI.ts     |   7 +-
+ .../chatmodels/ChatOpenAI/SynapseFlowChatOpenAI.ts     |   7 +-
  .../ChatOpenAICustom/ChatOpenAICustom.ts           |   1 +
  .../chatmodels/ChatOpenRouter/ChatOpenRouter.ts    |   1 +
  .../nodes/chatmodels/Deepseek/Deepseek.ts          |   1 +

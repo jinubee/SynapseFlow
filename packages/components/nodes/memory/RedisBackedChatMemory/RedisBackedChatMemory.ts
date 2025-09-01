@@ -1,7 +1,7 @@
 import { Redis, RedisOptions } from 'ioredis'
 import { BufferMemory, BufferMemoryInput } from 'langchain/memory'
 import { mapStoredMessageToChatMessage, BaseMessage, AIMessage, HumanMessage } from '@langchain/core/messages'
-import { INode, INodeData, INodeParams, ICommonObject, MessageType, IMessage, MemoryMethods, FlowiseMemory } from '../../../src/Interface'
+import { INode, INodeData, INodeParams, ICommonObject, MessageType, IMessage, MemoryMethods, SynapseFlowMemory } from '../../../src/Interface'
 import {
     convertBaseMessagetoIMessage,
     getBaseClasses,
@@ -44,7 +44,7 @@ class RedisBackedChatMemory_Memory implements INode {
                 name: 'sessionId',
                 type: 'string',
                 description:
-                    'If not specified, a random id will be used. Learn <a target="_blank" href="https://docs.flowiseai.com/memory/long-term-memory#ui-and-embedded-chat">more</a>',
+                    'If not specified, a random id will be used. Learn <a target="_blank" href="https://docs.SynapseFlowai.com/memory/long-term-memory#ui-and-embedded-chat">more</a>',
                 default: '',
                 additionalParams: true,
                 optional: true
@@ -120,7 +120,7 @@ interface BufferMemoryExtendedInput {
     redisOptions: RedisOptions | string
 }
 
-class BufferMemoryExtended extends FlowiseMemory implements MemoryMethods {
+class BufferMemoryExtended extends SynapseFlowMemory implements MemoryMethods {
     sessionId = ''
     orgId = ''
     windowSize?: number

@@ -15,7 +15,7 @@ import { AbortControllerPool } from './AbortControllerPool'
 import { RateLimiterManager } from './utils/rateLimit'
 import { getAllowedIframeOrigins, getCorsOptions, sanitizeMiddleware } from './utils/XSS'
 import { Telemetry } from './utils/telemetry'
-import flowiseApiV1Router from './routes'
+import SynapseFlowApiV1Router from './routes'
 import errorHandlerMiddleware from './middlewares/errors'
 import { WHITELIST_URLS } from './utils/constants'
 import { initializeJwtCookieMiddleware, verifyToken } from './enterprise/middleware/passport'
@@ -158,9 +158,9 @@ export class App {
 
     async config() {
         // Limit is needed to allow sending/receiving base64 encoded string
-        const flowise_file_size_limit = process.env.FLOWISE_FILE_SIZE_LIMIT || '50mb'
-        this.app.use(express.json({ limit: flowise_file_size_limit }))
-        this.app.use(express.urlencoded({ limit: flowise_file_size_limit, extended: true }))
+        const SynapseFlow_file_size_limit = process.env.SynapseFlow_FILE_SIZE_LIMIT || '50mb'
+        this.app.use(express.json({ limit: SynapseFlow_file_size_limit }))
+        this.app.use(express.urlencoded({ limit: SynapseFlow_file_size_limit, extended: true }))
 
         // Enhanced trust proxy settings for load balancer
         this.app.set('trust proxy', true) // Trust all proxies
@@ -306,7 +306,7 @@ export class App {
             }
         }
 
-        this.app.use('/api/v1', flowiseApiV1Router)
+        this.app.use('/api/v1', SynapseFlowApiV1Router)
 
         // ----------------------------------------
         // Configure number of proxies in Host Environment
@@ -314,7 +314,7 @@ export class App {
         this.app.get('/api/v1/ip', (request, response) => {
             response.send({
                 ip: request.ip,
-                msg: 'Check returned IP address in the response. If it matches your current IP address ( which you can get by going to http://ip.nfriedly.com/ or https://api.ipify.org/ ), then the number of proxies is correct and the rate limiter should now work correctly. If not, increase the number of proxies by 1 and restart Cloud-Hosted Flowise until the IP address matches your own. Visit https://docs.flowiseai.com/configuration/rate-limit#cloud-hosted-rate-limit-setup-guide for more information.'
+                msg: 'Check returned IP address in the response. If it matches your current IP address ( which you can get by going to http://ip.nfriedly.com/ or https://api.ipify.org/ ), then the number of proxies is correct and the rate limiter should now work correctly. If not, increase the number of proxies by 1 and restart Cloud-Hosted SynapseFlow until the IP address matches your own. Visit https://docs.SynapseFlowai.com/configuration/rate-limit#cloud-hosted-rate-limit-setup-guide for more information.'
             })
         })
 
@@ -326,7 +326,7 @@ export class App {
         // Serve UI static
         // ----------------------------------------
 
-        const packagePath = getNodeModulesPackagePath('flowise-ui')
+        const packagePath = getNodeModulesPackagePath('SynapseFlow-ui')
         const uiBuildPath = path.join(packagePath, 'build')
         const uiHtmlPath = path.join(packagePath, 'build', 'index.html')
 
@@ -350,7 +350,7 @@ export class App {
             }
             await Promise.all(removePromises)
         } catch (e) {
-            logger.error(`❌[server]: Flowise Server shut down error: ${e}`)
+            logger.error(`❌[server]: SynapseFlow Server shut down error: ${e}`)
         }
     }
 }
@@ -368,7 +368,7 @@ export async function start(): Promise<void> {
     await serverApp.config()
 
     server.listen(port, host, () => {
-        logger.info(`⚡️ [server]: Flowise Server is listening at ${host ? 'http://' + host : ''}:${port}`)
+        logger.info(`⚡️ [server]: SynapseFlow Server is listening at ${host ? 'http://' + host : ''}:${port}`)
     })
 }
 
